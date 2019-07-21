@@ -15,10 +15,13 @@ router.get("/proxy", function(req, res, next) {
   var hex_hash = crypto.enc.Hex.stringify(hash);
   var signature = payload + "." + hex_hash;
   var proxy_url = `https://apiv2.bitcoinaverage.com/${path}`;
-  const headers = { "X-Signature": signature };
+  const headers = {
+    "X-Signature": signature,
+    "X-ba-key": "OGVjYmU3ODc5YTExNDU5MDlhZDM1N2E0OWI5ZWIxZmQ"
+  };
 
   fetch(proxy_url, { method: "GET", headers: headers })
-    .then(res => res.json())
+    .then(res => res.text())
     .then(data => res.send(data));
 });
 
